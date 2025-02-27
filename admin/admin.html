@@ -4,13 +4,11 @@
   <meta charset="UTF-8">
   <title>Administración - Moncho Relojes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" sizes="32x32" href="img/clock.png">
 </head>
 <body>
-  <!-- Navbar de administración -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Admin Panel</a>
@@ -36,15 +34,12 @@
     </div>
   </nav>
   
-  <!-- Contenido principal -->
   <div class="container my-4">
     <h1 class="mb-4">Panel de Administración</h1>
     
-    <!-- Sección: Usuarios -->
     <section id="usuarios" class="mb-5">
       <h2>Usuarios</h2>
       <p>Lista de usuarios existentes. Puedes activar/desactivar usuarios y modificar la información de aquellos que lo permitan.</p>
-      <!-- Ejemplo de tabla de usuarios -->
       <table class="table table-striped">
         <thead>
           <tr>
@@ -58,25 +53,22 @@
         <tbody>
           <tr>
             <td>1</td>
-            <td>Juan Pérez</td>
-            <td>juan@example.com</td>
+            <td>Matias Moncho</td>
+            <td>matias@gmail.com</td>
             <td>Activo</td>
             <td>
               <button class="btn btn-sm btn-warning">Modificar</button>
               <button class="btn btn-sm btn-danger">Desactivar</button>
             </td>
           </tr>
-          <!-- Más filas según sea necesario -->
         </tbody>
       </table>
     </section>
     
-    <!-- Sección: Productos -->
     <section id="productos" class="mb-5">
       <h2>Productos</h2>
       <p>Lista y modificación de los productos existentes. También podrás insertar un nuevo producto solicitando todos los datos necesarios.</p>
       <button class="btn btn-primary mb-3">Insertar Nuevo Producto</button>
-      <!-- Ejemplo de tabla de productos -->
       <table class="table table-striped">
         <thead>
           <tr>
@@ -98,19 +90,16 @@
               <button class="btn btn-sm btn-danger">Eliminar</button>
             </td>
           </tr>
-          <!-- Más filas según sea necesario -->
         </tbody>
       </table>
     </section>
     
-    <!-- Sección: Pedidos -->
     <section id="pedidos" class="mb-5">
       <h2>Pedidos</h2>
       <p>Listado de pedidos realizados por los compradores. Usa el buscador para filtrar entre los pedidos existentes.</p>
       <div class="mb-3">
         <input type="text" class="form-control" placeholder="Buscar pedidos...">
       </div>
-      <!-- Ejemplo de tabla de pedidos -->
       <table class="table table-striped">
         <thead>
           <tr>
@@ -134,7 +123,6 @@
               <button class="btn btn-sm btn-danger">Cancelar</button>
             </td>
           </tr>
-          <!-- Más filas según sea necesario -->
         </tbody>
       </table>
     </section>
