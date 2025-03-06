@@ -5,14 +5,7 @@ body {
   }
 
 
-.navbar {
-    background-color: #004f39 !important;
-  }
 
-  .navbar-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 30px;
-  }
   
 
 .card {
@@ -103,6 +96,3 @@ body {
     transform: scale(0.9);
   }
   
-.bg {
-    background-color: #004f39; 
-  } 
