@@ -59,7 +59,7 @@
   </main>
 
   <footer><mi-footer></mi-footer></footer>
-
+  <div style="height: 100px;"></div>
   <script src="js/etiquetas.js"></script>
   <script src="js/libjson.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

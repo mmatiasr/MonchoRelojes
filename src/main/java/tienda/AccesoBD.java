@@ -51,7 +51,6 @@ public final class AccesoBD {
 	try {
 		String query = "SELECT codigo,descripcion,precio,existencias,imagen FROM productos"; // Hay que tener en cuenta las columnas de la tabla de productos
 		PreparedStatement s = conexionBD.prepareStatement(query);
-		s.setInt(1, 1); // Cambia el valor de la categoría según sea necesario
 		ResultSet resultado = s.executeQuery();
 		while(resultado.next()){
 			ProductoBD producto = new ProductoBD();

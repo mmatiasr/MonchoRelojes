@@ -17,12 +17,12 @@
     <mi-header></mi-header>
   </header>
 
-  <main class="container mt-5 pt-5">
+  <main class="container mt-5 pt-5 mb-8">
     <h2 class="my-4">Productos</h2>
     <div class="row">
       <%
         AccesoBD con = AccesoBD.getInstance();
-        List<ProductoBD> productos = con.obtenerProductosBD(); // sin categoría
+        List<ProductoBD> productos = con.obtenerProductosBD(); 
         for (ProductoBD producto : productos) {
           int codigo = producto.getCodigo();
           String descripcion = producto.getDescripcion();
@@ -34,7 +34,8 @@
         <div class="card">
           <div class="wrapper">
             <div class="card-image">
-              <img src="img/<%= imagen %>" alt="<%= descripcion %>" class="img-fluid">
+              <img src="<%= request.getContextPath() %>/img/<%= imagen %>" alt="<%= descripcion %>" class="img-fluid">
+
             </div>
             <div class="info">
               <div class="content">
@@ -60,7 +61,7 @@
   <footer>
     <mi-footer></mi-footer>
   </footer>
-
+  <div style="height: 100px;"></div>
   <script src="js/etiquetas.js"></script>
   <script src="js/carrito.js"></script>
   <script src="js/libjson.js"></script>

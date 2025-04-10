@@ -68,14 +68,11 @@
     </form>
   </main>
 
-  <footer class="bg text-black bottom text-center p-3">
+  <footer>
      
-    <p>Moncho Relojes</p>
-    <a href="https://www.facebook.com" target="_blank">Facebook</a> |
-    <a href="https://www.twitter.com" target="_blank">Twitter</a> |
-    <a href="https://www.instagram.com" target="_blank">Instagram</a>
+    <mi-footer></mi-footer>
   </footer>
-  
+  <div style="height: 120px;"></div>
   <script src="js/etiquetas.js"></script>
   <script src="js/carrito.js"></script>
   <script src="js/libjson.js"></script>

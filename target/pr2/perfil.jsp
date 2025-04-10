@@ -55,6 +55,7 @@
   </main>
 
   <footer><mi-footer></mi-footer></footer>
+  <div style="height: 100px;"></div>
   <script src="js/etiquetas.js"></script>
   <script src="js/carrito.js"></script>
   <script src="js/libjson.js"></script>
