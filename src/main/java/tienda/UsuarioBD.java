@@ -7,6 +7,9 @@ public class UsuarioBD {
     private String apellidos;
     private String direccion;
     private int telefono;
+    private String cp; 
+    private String poblacion; 
+    private String provincia; 
 
     public int getCodigo() 
     { 
@@ -64,5 +67,29 @@ public class UsuarioBD {
     public void setTelefono(int telefono) 
     { 
         this.telefono = telefono;
+    }
+
+    public String getCp() { 
+        return cp; 
+    }
+    
+    public void setCp(String cp) { 
+        this.cp = cp; 
+    }
+
+    public String getPoblacion() { 
+        return poblacion; 
+    }
+    
+    public void setPoblacion(String poblacion) { 
+        this.poblacion = poblacion; 
+    }
+
+    public String getProvincia() { 
+        return provincia; 
+    }
+    
+    public void setProvincia(String provincia) { 
+        this.provincia = provincia; 
     }
 }

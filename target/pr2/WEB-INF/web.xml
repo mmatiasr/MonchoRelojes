@@ -39,4 +39,33 @@
     <url-pattern>/logout.html</url-pattern>
 </servlet-mapping>
 
+<servlet>
+    <servlet-name>ProcesarPedido</servlet-name>
+    <servlet-class>tienda.ProcesarPedido</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>ProcesarPedido</servlet-name>
+    <url-pattern>/ProcesarPedido.html</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>ActualizarUsuario</servlet-name>
+    <servlet-class>tienda.ActualizarUsuario</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>ActualizarUsuario</servlet-name>
+    <url-pattern>/ActualizarUsuario.html</url-pattern>
+</servlet-mapping>
+<servlet>
+  <servlet-name>CancelarPedido</servlet-name>
+  <servlet-class>tienda.CancelarPedido</servlet-class>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>CancelarPedido</servlet-name>
+  <url-pattern>/CancelarPedido.html</url-pattern>
+</servlet-mapping>
+
 </web-app>

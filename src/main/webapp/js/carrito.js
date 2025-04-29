@@ -87,9 +87,7 @@ class ProductoCarrito {
     }
   }
   
-  // Función para generar el contenido HTML del carrito en una tabla
-  // Se asume que en la página HTML existe un elemento (por ejemplo, un <tbody>)
-  // con id "tabla-carrito" donde se insertará el contenido generado
+
   function mostrarCarrito() {
     cargarCarrito();
     let contenido = "";

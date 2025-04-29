@@ -22,9 +22,7 @@ public final class AccesoBD {
 		if (conexionBD == null)
 		{
 			String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
-			// daw es el nombre de la base de datos que hemos creado con anterioridad.
 			String DB_URL = "jdbc:mariadb://localhost:3306/daw";
-			// El usuario root y su clave son los que se puso al instalar MariaDB.
 			String USER = "root";
 			String PASS = "1234";
 			try {
@@ -49,8 +47,8 @@ public final class AccesoBD {
 	ArrayList<ProductoBD> productos = new ArrayList<>();
 
 	try {
-		String query = "SELECT codigo,descripcion,precio,existencias,imagen FROM productos"; // Hay que tener en cuenta las columnas de la tabla de productos
-		PreparedStatement s = conexionBD.prepareStatement(query);
+		String query = "SELECT codigo,descripcion,precio,existencias,imagen FROM productos";
+        PreparedStatement s = conexionBD.prepareStatement(query);
 		ResultSet resultado = s.executeQuery();
 		while(resultado.next()){
 			ProductoBD producto = new ProductoBD();
@@ -104,7 +102,7 @@ public boolean crearNuevoUsuario(String usuario, String clave, String nombre,
         ps.setString(1, usuario);
         ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) return false; // Ya existe
+        if (rs.next()) return false; 
 
         String insert = "INSERT INTO usuarios (usuario, clave, nombre, apellidos, domicilio, telefono, poblacion, provincia, cp, activo, admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 0)";
         PreparedStatement ins = conexionBD.prepareStatement(insert);
@@ -147,6 +145,9 @@ public UsuarioBD obtenerUsuarioPorCodigo(int codigo) {
             usuario.setApellidos(rs.getString("apellidos"));
             usuario.setDireccion(rs.getString("domicilio"));
             usuario.setTelefono(rs.getInt("telefono"));
+            usuario.setCp(rs.getString("cp"));                 
+            usuario.setPoblacion(rs.getString("poblacion"));   
+            usuario.setProvincia(rs.getString("provincia"));
         }
     } catch (Exception e) {
         System.err.println("Error al obtener datos del usuario");
@@ -154,6 +155,138 @@ public UsuarioBD obtenerUsuarioPorCodigo(int codigo) {
     }
 
     return usuario;
+}
+public Connection getConexion() {
+    abrirConexionBD();
+    return conexionBD;
+}
+
+public int obtenerExistencias(int codigoProducto) {
+    abrirConexionBD();
+    int existencias = 0;
+
+    try {
+        String query = "SELECT existencias FROM productos WHERE codigo = ?";
+        PreparedStatement ps = conexionBD.prepareStatement(query);
+        ps.setInt(1, codigoProducto);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            existencias = rs.getInt("existencias");
+        }
+    } catch (Exception e) {
+        System.err.println("Error al obtener existencias del producto con código " + codigoProducto);
+        e.printStackTrace();
+    }
+
+    return existencias;
+}
+public List<PedidoBD> obtenerPedidosUsuario(int codigoUsuario) {
+    abrirConexionBD();
+    List<PedidoBD> pedidos = new ArrayList<>();
+
+    try {
+        String query = "SELECT codigo, fecha, importe, estado FROM pedidos WHERE persona=? ORDER BY fecha DESC";
+        PreparedStatement ps = conexionBD.prepareStatement(query);
+        ps.setInt(1, codigoUsuario);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            PedidoBD pedido = new PedidoBD();
+            pedido.setCodigo(rs.getInt("codigo"));
+            pedido.setFecha(rs.getDate("fecha"));
+            pedido.setImporte(rs.getFloat("importe"));
+            pedido.setEstado(rs.getInt("estado"));
+            pedidos.add(pedido);
+        }
+    } catch (Exception e) {
+        System.err.println("Error obteniendo pedidos del usuario");
+        e.printStackTrace();
+    }
+    return pedidos;
+}
+public List<DetallePedidoBD> obtenerDetallePedido(int codigoPedido) {
+    abrirConexionBD();
+    List<DetallePedidoBD> detalles = new ArrayList<>();
+
+    try {
+        String query = "SELECT d.codigo_producto, p.descripcion, d.unidades, d.precio_unitario " +
+                       "FROM detalle d JOIN productos p ON d.codigo_producto = p.codigo " +
+                       "WHERE d.codigo_pedido = ?";
+        PreparedStatement ps = conexionBD.prepareStatement(query);
+        ps.setInt(1, codigoPedido);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            DetallePedidoBD detalle = new DetallePedidoBD();
+            detalle.setCodigoProducto(rs.getInt("codigo_producto"));
+            detalle.setDescripcion(rs.getString("descripcion"));
+            detalle.setUnidades(rs.getInt("unidades"));
+            detalle.setPrecioUnitario(rs.getFloat("precio_unitario"));
+            detalles.add(detalle);
+        }
+    } catch (Exception e) {
+        System.err.println("Error obteniendo detalle del pedido");
+        e.printStackTrace();
+    }
+
+    return detalles;
+}
+
+public boolean actualizarUsuario(int codigo, String nombre, String apellidos, String direccion,
+                                 String telefono, String cp, String poblacion, String provincia) {
+    abrirConexionBD();
+
+    try {
+        String sql = "UPDATE usuarios SET nombre=?, apellidos=?, domicilio=?, telefono=?, cp=?, poblacion=?, provincia=? WHERE codigo=?";
+        PreparedStatement ps = conexionBD.prepareStatement(sql);
+        ps.setString(1, nombre);
+        ps.setString(2, apellidos);
+        ps.setString(3, direccion);
+        ps.setString(4, telefono);
+        ps.setString(5, cp);
+        ps.setString(6, poblacion);
+        ps.setString(7, provincia);
+        ps.setInt(8, codigo);
+
+        int filas = ps.executeUpdate();
+        return filas > 0;
+
+    } catch (Exception e) {
+        System.err.println("Error al actualizar usuario:");
+        e.printStackTrace();
+        return false;
+    }
+}
+
+public boolean cancelarPedido(int codigoUsuario, int codigoPedido) {
+    abrirConexionBD();
+
+    try {
+        // Solo se cancela si el pedido es del usuario Y está pendiente
+        String check = "SELECT estado FROM pedidos WHERE codigo=? AND persona=?";
+        PreparedStatement ps = conexionBD.prepareStatement(check);
+        ps.setInt(1, codigoPedido);
+        ps.setInt(2, codigoUsuario);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            int estado = rs.getInt("estado");
+            if (estado != 1) return false; // solo se cancela si está pendiente
+        } else {
+            return false; // no existe o no es del usuario
+        }
+
+        String update = "UPDATE pedidos SET estado = 4 WHERE codigo = ?";
+        PreparedStatement upd = conexionBD.prepareStatement(update);
+        upd.setInt(1, codigoPedido);
+        return upd.executeUpdate() > 0;
+
+    } catch (Exception e) {
+        System.err.println("Error cancelando pedido:");
+        e.printStackTrace();
+        return false;
+    }
 }
 
 }
