@@ -68,7 +68,7 @@ public final class AccesoBD {
 	
 }
 
-public int comprobarUsuarioBD(String usuario, String clave) {
+public int comprobarUsuarioBD(String usuario, String claveHash) {
     abrirConexionBD();
     int codigo = -1;
 
@@ -76,7 +76,7 @@ public int comprobarUsuarioBD(String usuario, String clave) {
         String con = "SELECT codigo FROM usuarios WHERE usuario=? AND clave=?";
         PreparedStatement s = conexionBD.prepareStatement(con);
         s.setString(1, usuario);
-        s.setString(2, clave);
+        s.setString(2, claveHash);
 
         ResultSet resultado = s.executeQuery();
 
@@ -85,12 +85,12 @@ public int comprobarUsuarioBD(String usuario, String clave) {
         }
     } catch (Exception e) {
         System.err.println("Error verificando usuario/clave");
-        System.err.println(e.getMessage());
         e.printStackTrace();
     }
 
     return codigo;
 }
+
 public boolean crearNuevoUsuario(String usuario, String clave, String nombre,
                                  String apellidos, String direccion, String telefono,
                                  String poblacion, String provincia, String cp) {
@@ -287,6 +287,33 @@ public boolean cancelarPedido(int codigoUsuario, int codigoPedido) {
         e.printStackTrace();
         return false;
     }
+}
+public List<ProductoBD> obtenerProductosPorNombre(String texto) {
+    abrirConexionBD();
+    List<ProductoBD> productos = new ArrayList<>();
+
+    try {
+        String query = "SELECT codigo, descripcion, precio, existencias, imagen FROM productos WHERE descripcion LIKE ?";
+        PreparedStatement ps = conexionBD.prepareStatement(query);
+        ps.setString(1, "%" + texto + "%");
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            ProductoBD producto = new ProductoBD();
+            producto.setCodigo(rs.getInt("codigo"));
+            producto.setDescripcion(rs.getString("descripcion"));
+            producto.setPrecio(rs.getFloat("precio"));
+            producto.setStock(rs.getInt("existencias"));
+            producto.setImagen(rs.getString("imagen"));
+            productos.add(producto);
+        }
+
+    } catch (Exception e) {
+        System.err.println("Error buscando productos por nombre:");
+        e.printStackTrace();
+    }
+
+    return productos;
 }
 
 }

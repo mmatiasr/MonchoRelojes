@@ -125,7 +125,7 @@
     <% } %>
 
     <form method="post" action="logout.html" class="d-inline">
-      <input type="hidden" name="url" value="index.jsp">
+      <input type="hidden" name="url" value="loginUsuario.jsp">
       <button type="submit" class="btn btn-danger btn-sm mt-3">Cerrar sesión</button>
     </form>
   </main>

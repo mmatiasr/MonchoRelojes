@@ -32,8 +32,12 @@
       </div>
       <div class="mb-3">
         <label class="form-label">Contraseña</label>
-        <input type="password" class="form-control" name="clave" required>
+        <input type="password" class="form-control" name="clave1" required>
       </div>
+      <div class="mb-3">
+        <label class="form-label">Repite la Contraseña</label>
+        <input type="password" class="form-control" name="clave2" required>
+      </div>      
       <div class="mb-3">
         <label class="form-label">Nombre</label>
         <input type="text" class="form-control" name="nombre">

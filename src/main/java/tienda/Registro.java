@@ -11,7 +11,8 @@ public class Registro extends HttpServlet {
         throws ServletException, IOException {
 
         String usuario = request.getParameter("usuario");
-        String clave = request.getParameter("clave");
+        String clave1 = request.getParameter("clave1");
+        String clave2 = request.getParameter("clave2");
         String nombre = request.getParameter("nombre");
         String apellidos = request.getParameter("apellidos");
         String domicilio = request.getParameter("domicilio");
@@ -24,8 +25,14 @@ public class Registro extends HttpServlet {
 
         HttpSession session = request.getSession(true);
         AccesoBD con = AccesoBD.getInstance();
-
-        boolean creado = con.crearNuevoUsuario(usuario, clave, nombre, apellidos, domicilio, telefono,poblacion, provincia, cp);
+        if (clave1 == null || clave2 == null || !clave1.equals(clave2)) {
+            session.setAttribute("mensaje", "Error: Las contraseñas no coinciden o están vacías.");
+            response.sendRedirect(url);
+            return;
+        }
+        
+        String claveSegura = Encriptador.sha256(clave1);
+        boolean creado = con.crearNuevoUsuario(usuario, claveSegura, nombre, apellidos, domicilio, telefono,poblacion, provincia, cp);
 
 
         if (creado) {

@@ -19,10 +19,22 @@
 
   <main class="container mt-5 pt-5 mb-8">
     <h2 class="my-4">Productos</h2>
+    <form method="get" action="productos.jsp" class="mb-4 d-flex">
+      <input type="text" name="filtro" class="form-control me-2" placeholder="Buscar producto..." value="<%= request.getParameter("filtro") != null ? request.getParameter("filtro") : "" %>">
+      <button type="submit" class="btn btn-outline-primary">Buscar</button>
+    </form>
+    
     <div class="row">
       <%
-        AccesoBD con = AccesoBD.getInstance();
-        List<ProductoBD> productos = con.obtenerProductosBD(); 
+      AccesoBD con = AccesoBD.getInstance();
+      String filtro = request.getParameter("filtro");
+      List<ProductoBD> productos;
+      
+      if (filtro != null && !filtro.trim().isEmpty()) {
+          productos = con.obtenerProductosPorNombre(filtro.trim());
+      } else {
+          productos = con.obtenerProductosBD();
+      }      
         for (ProductoBD producto : productos) {
           int codigo = producto.getCodigo();
           String descripcion = producto.getDescripcion();
