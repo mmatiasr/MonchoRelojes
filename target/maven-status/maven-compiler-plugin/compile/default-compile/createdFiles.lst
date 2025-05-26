@@ -1,5 +1,15 @@
+tienda\Encriptador.class
 tienda\Logout.class
 tienda\ProductoBD.class
+tienda\CancelarPedido.class
+tienda\PedidoBD.class
+tienda\ProcesarPedido.class
+tienda\CambiarClave.class
+tienda\DetallePedidoBD.class
+tienda\ActualizarUsuario.class
+tienda\Tramitacion.class
 tienda\Registro.class
+tienda\UsuarioBD.class
 tienda\AccesoBD.class
+tienda\Producto.class
 tienda\Login.class

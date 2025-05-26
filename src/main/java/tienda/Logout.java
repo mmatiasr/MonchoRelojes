@@ -13,16 +13,13 @@ public class Logout extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Obtenemos la URL a la que volver después del logout
         String url = request.getParameter("url");
 
-        // Cerramos la sesión eliminando todos los atributos
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
 
-        // Redirigimos a la URL especificada
         request.getRequestDispatcher(url).forward(request, response);
     }
 }

@@ -21,7 +21,7 @@ public class CancelarPedido extends HttpServlet {
         int codigoPedido = Integer.parseInt(request.getParameter("codigoPedido"));
         AccesoBD bd = AccesoBD.getInstance();
 
-        boolean cancelado = bd.cancelarPedido(codigo, codigoPedido); // validación por usuario
+        boolean cancelado = bd.cancelarPedido(codigo, codigoPedido);
 
         if (cancelado) {
             session.setAttribute("mensaje", "Pedido cancelado correctamente.");

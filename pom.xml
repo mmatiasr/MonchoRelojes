@@ -4,14 +4,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>practica2</groupId>
-  <artifactId>pr2</artifactId>
+  <groupId>prac3</groupId>
+  <artifactId>pr3</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>pr2 Maven Webapp</name>
+  <name>prac3 Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
-  <url> http://localhost:8080/pr2</url>
+  <url> http://localhost:8080/prac3</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,7 +59,7 @@
   </dependencies>
 
   <build>
-    <finalName>pr2</finalName>
+    <finalName>prac3</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>

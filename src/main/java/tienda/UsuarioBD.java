@@ -1,5 +1,6 @@
 package tienda;
 
+
 public class UsuarioBD {
     private int codigo;
     private String usuario;

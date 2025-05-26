@@ -21,12 +21,13 @@ public class Login extends HttpServlet {
         AccesoBD con = AccesoBD.getInstance();
 
         if (usuario != null && clave != null) {
-            // Convertir la clave en SHA-256
             String claveHash = Encriptador.sha256(clave);
 
             int codigo = con.comprobarUsuarioBD(usuario, claveHash);
             if (codigo > 0) {
                 session.setAttribute("codigo", codigo);
+                UsuarioBD usuarioBD = con.obtenerUsuarioPorCodigo(codigo);
+                session.setAttribute("nombreUsuario", usuarioBD.getNombre());
             } else {
                 session.setAttribute("mensaje", "Usuario y/o clave incorrectos");
             }

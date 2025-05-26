@@ -1,5 +1,6 @@
 package tienda;
 
+
 public class ProductoBD {
 
     private int codigo;

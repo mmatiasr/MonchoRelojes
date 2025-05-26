@@ -1,4 +1,5 @@
 package tienda;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -263,7 +264,6 @@ public boolean cancelarPedido(int codigoUsuario, int codigoPedido) {
     abrirConexionBD();
 
     try {
-        // Solo se cancela si el pedido es del usuario Y está pendiente
         String check = "SELECT estado FROM pedidos WHERE codigo=? AND persona=?";
         PreparedStatement ps = conexionBD.prepareStatement(check);
         ps.setInt(1, codigoPedido);
@@ -272,9 +272,9 @@ public boolean cancelarPedido(int codigoUsuario, int codigoPedido) {
 
         if (rs.next()) {
             int estado = rs.getInt("estado");
-            if (estado != 1) return false; // solo se cancela si está pendiente
+            if (estado != 1) return false; 
         } else {
-            return false; // no existe o no es del usuario
+            return false; 
         }
 
         String update = "UPDATE pedidos SET estado = 4 WHERE codigo = ?";
@@ -315,5 +315,25 @@ public List<ProductoBD> obtenerProductosPorNombre(String texto) {
 
     return productos;
 }
+
+public boolean actualizarClaveUsuario(int codigo, String nuevaClaveHash) {
+    abrirConexionBD();
+
+    try {
+        String sql = "UPDATE usuarios SET clave=? WHERE codigo=?";
+        PreparedStatement ps = conexionBD.prepareStatement(sql);
+        ps.setString(1, nuevaClaveHash);
+        ps.setInt(2, codigo);
+
+        int filas = ps.executeUpdate();
+        return filas > 0;
+
+    } catch (Exception e) {
+        System.err.println("Error al actualizar la clave:");
+        e.printStackTrace();
+        return false;
+    }
+}
+
 
 }

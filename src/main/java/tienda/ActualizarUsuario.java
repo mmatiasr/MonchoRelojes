@@ -18,7 +18,6 @@ public class ActualizarUsuario extends HttpServlet {
             return;
         }
 
-        // Recogemos los nuevos datos del formulario
         String nombre = request.getParameter("nombre");
         String apellidos = request.getParameter("apellidos");
         String direccion = request.getParameter("direccion");

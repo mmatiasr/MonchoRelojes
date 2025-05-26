@@ -9,7 +9,6 @@ public class PedidoBD {
     private float importe;
     private int estado;
 
-    // Getters y Setters
     public int getCodigo() {
         return codigo;
     }

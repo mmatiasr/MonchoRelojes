@@ -15,6 +15,7 @@ public class Tramitacion extends HttpServlet {
         throws ServletException, IOException {
 
         HttpSession sesion = request.getSession();
+        @SuppressWarnings("unchecked")
         List<Producto> carrito = (List<Producto>) sesion.getAttribute("carritoJSON");
         Integer codigoUsuario = (Integer) sesion.getAttribute("codigo");
 
@@ -27,20 +28,17 @@ public class Tramitacion extends HttpServlet {
         Connection conexion = con.getConexion();
 
         try {
-            conexion.setAutoCommit(false); // iniciar transacción
-
-            // Calcular el importe total del carrito
+            conexion.setAutoCommit(false); 
             float importeTotal = 0;
             for (Producto p : carrito) {
                 importeTotal += p.getPrecio() * p.getCantidad();
             }
 
-            // Insertar en tabla pedidos
             String sqlPedido = "INSERT INTO pedidos (persona, fecha, importe, estado) VALUES (?, CURRENT_DATE(), ?, ?)";
             PreparedStatement psPedido = conexion.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
             psPedido.setInt(1, codigoUsuario);
             psPedido.setFloat(2, importeTotal);
-            psPedido.setInt(3, 1); // Estado 1 = "Procesando" (o el valor inicial que tengas)
+            psPedido.setInt(3, 1); 
             psPedido.executeUpdate();
 
             ResultSet rs = psPedido.getGeneratedKeys();
@@ -49,7 +47,6 @@ public class Tramitacion extends HttpServlet {
                 codigoPedido = rs.getInt(1);
             }
 
-            // Insertar cada línea de pedido en tabla detalle
             for (Producto p : carrito) {
                 String sqlDetalle = "INSERT INTO detalle (codigo_pedido, codigo_producto, unidades, precio_unitario) VALUES (?, ?, ?, ?)";
                 PreparedStatement psDetalle = conexion.prepareStatement(sqlDetalle);
@@ -59,7 +56,6 @@ public class Tramitacion extends HttpServlet {
                 psDetalle.setFloat(4, p.getPrecio());
                 psDetalle.executeUpdate();
 
-                // Restar existencias en productos
                 String sqlUpdate = "UPDATE productos SET existencias = existencias - ? WHERE codigo = ?";
                 PreparedStatement psUpdate = conexion.prepareStatement(sqlUpdate);
                 psUpdate.setInt(1, p.getCantidad());
@@ -67,28 +63,25 @@ public class Tramitacion extends HttpServlet {
                 psUpdate.executeUpdate();
             }
 
-            conexion.commit(); // confirmar todo
+            conexion.commit(); 
 
-            // Guardar el código del pedido en sesión para mostrarlo después
             sesion.setAttribute("codigoPedido", codigoPedido);
 
-            // Eliminar el carrito de la sesión
             sesion.removeAttribute("carritoJSON");
 
-            // Redirigir a la página de pedido finalizado
             response.sendRedirect("pedidoFinalizado.jsp");
 
         } catch (Exception e) {
             try {
-                conexion.rollback(); // rollback si falla algo
+                conexion.rollback(); 
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
             e.printStackTrace();
-            response.sendRedirect("productos.jsp"); // en caso de error volver a productos
+            response.sendRedirect("productos.jsp"); 
         } finally {
             try {
-                conexion.setAutoCommit(true); // restaurar autocommit
+                conexion.setAutoCommit(true); 
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }

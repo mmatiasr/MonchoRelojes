@@ -19,8 +19,6 @@ public class ProcesarPedido extends HttpServlet {
 
         HttpSession sesion = request.getSession(true);
 
-        // ... falta código de declaración de variables
-
         if (sesion.getAttribute("carritoJSON") != null) {
             sesion.removeAttribute("carritoJSON");
         }
@@ -59,8 +57,6 @@ public class ProcesarPedido extends HttpServlet {
         if (carritoJSON.size() > 0) {
             sesion.setAttribute("carritoJSON", carritoJSON);
         }
-
-         // ... falta código
 
         RequestDispatcher rd = request.getRequestDispatcher("resguardo.jsp");
         rd.forward(request, response);
